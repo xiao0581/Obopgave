@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "921828675233",
+    "project_id": "obopgave",
+    "storage_bucket": "obopgave.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:921828675233:android:939090e1320f890019aae0",
+        "android_client_info": {
+          "package_name": "com.example.obopgave"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDc9Y4HGE44ixi_TZd9VRtDamzdqIdtBsQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
