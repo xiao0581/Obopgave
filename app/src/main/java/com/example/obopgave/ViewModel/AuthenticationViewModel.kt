@@ -1,5 +1,6 @@
 package com.example.obopgave.ViewModel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -17,7 +18,8 @@ class AuthenticationViewModel : ViewModel() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     user = auth.currentUser
-                    message = ""
+                    message = "Login successful"
+
                 } else {
                     user = null
                     message = task.exception?.message ?: "Unknown error"
@@ -29,17 +31,14 @@ class AuthenticationViewModel : ViewModel() {
         user = null
         auth.signOut()
     }
-
-    fun register(email: String, password: String, onSuccess: () -> Unit = {}) {
+    fun register(email: String, password: String,) {
         auth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    user = auth.currentUser
-                    message = ""
-                    onSuccess()
+                    message = "Registration successful"
                 } else {
                     user = null
-                    message = task.exception?.message ?: "Unknown error"
+                    message = task.exception?.message ?: "Registration failed!"
                 }
             }
     }

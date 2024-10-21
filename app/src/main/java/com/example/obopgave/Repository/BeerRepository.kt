@@ -107,9 +107,8 @@ class BeerRepository {
         beerService.updateBeers(BeerId, Beer).enqueue(object : Callback<Beer> {
             override fun onResponse(call: Call<Beer>, response: Response<Beer>) {
                 if (response.isSuccessful) {
-
                     errorMessageFlow.value = ""
-                    getBeers()  // 更新后重新获取所有数据
+                    getBeers()
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageFlow.value = message
@@ -124,6 +123,7 @@ class BeerRepository {
             }
         })
     }
+
     fun getBeerByUser(user: String) {
         isLoadingBeers.value = true
         beerService.getBeerByUser(user).enqueue(object : Callback<List<Beer>> {

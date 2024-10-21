@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,6 +24,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults.shape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -49,6 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.AlignmentLine
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -58,6 +61,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.Visibility
 import com.example.obopgave.NavRouters
+import com.example.obopgave.R
 import com.example.obopgave.ui.theme.ObopgaveTheme
 import com.google.firebase.auth.FirebaseUser
 
@@ -66,7 +70,7 @@ import com.google.firebase.auth.FirebaseUser
 fun LoginScreen(
     modifier: Modifier = Modifier,
     user: FirebaseUser? = null,
-    message: String = "",
+    message: String ,
     signIn: (email: String, password: String) -> Unit = { _, _ -> },
     register: (email: String, password: String) -> Unit = { _, _ -> },
     navigateToWelcome: () -> Unit = {}
@@ -76,29 +80,33 @@ fun LoginScreen(
             navigateToWelcome()
         }
     }
-    val emailStart = "xiao0581@edu.zealand.dk" // TODO remove starting email
-    val passwordStart = "123456" // TODO remove starting password
-    var email by remember { mutableStateOf(emailStart) }
-    var password by remember { mutableStateOf(passwordStart) }
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
     var emailIsError by remember { mutableStateOf(false) }
     var passwordIsError by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
+    var showDialog by remember { mutableStateOf(false) } // 控制对话框显示
 
+    val backgroundColor =Color(0xFF8B8D7B)
     Scaffold(
-        topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = { Text("Beer App") }
-            )
-        }
+        containerColor =backgroundColor,
+
     ) { innerPadding ->
-        Column(modifier = Modifier.padding(innerPadding).padding(16.dp).fillMaxSize(),
+        Column(modifier = Modifier
+            .padding(innerPadding)
+            .padding(16.dp)
+            .fillMaxSize(),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
-            // TODO layout for landscape: side by side
+
+            Image(painter = painterResource(id = R.drawable.beer),
+                contentDescription = "Beer",
+                modifier = Modifier
+                    .width(100.dp)
+                    .height(100.dp)
+            )
+
             Text( text = "Login" ,
                 fontSize = 24.sp,
                 color = Color.Gray,
@@ -146,9 +154,7 @@ fun LoginScreen(
             if (passwordIsError) {
                 Text("Invalid password", color = MaterialTheme.colorScheme.error)
             }
-            if (message.isNotEmpty()) {
-                Text(message, color = MaterialTheme.colorScheme.error)
-            }
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
@@ -156,10 +162,13 @@ fun LoginScreen(
                 Button(onClick = {
                     // TODO same validation for register and sign in
                     register(email, password)
+                    showDialog = true
+
                 }) {
                     Text("Register")
                 }
                 Button(onClick = {
+                    showDialog = true
                     email = email.trim()
                     if (email.isEmpty() || !validateEmail(email)) {
                         emailIsError = true
@@ -179,8 +188,22 @@ fun LoginScreen(
                     Text("Sign in")
                 }
             }
+            if (showDialog && message.isNotEmpty()) {
+                AlertDialog(
+                    onDismissRequest = { showDialog = false },
+                    confirmButton = {
+                        Button(onClick = { showDialog = false }) {
+                            Text("OK")
+                        }
+                    },
+                    title = { Text(message) },
+
+                )
+            }
+
         }
     }
+
 }
 
 private fun validateEmail(email: String): Boolean {
@@ -190,6 +213,6 @@ private fun validateEmail(email: String): Boolean {
 @Composable
 fun PreviewAuthentication() {
     ObopgaveTheme {
-        LoginScreen()
+        LoginScreen( user = null, message = "", signIn = { _, _ -> }, register = { _, _ -> }, navigateToWelcome = {})
     }
 }

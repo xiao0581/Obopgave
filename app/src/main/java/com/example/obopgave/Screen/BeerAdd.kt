@@ -50,6 +50,13 @@ fun BeerAdd(
     var howMany by rememberSaveable { mutableStateOf(0) }
     var nameIsError by rememberSaveable { mutableStateOf(false) }
     var abvIsError by rememberSaveable { mutableStateOf(false) }
+    var userIsError by rememberSaveable { mutableStateOf(false) }
+    var breweryIsError by rememberSaveable { mutableStateOf(false) }
+    var styleIsError by rememberSaveable { mutableStateOf(false) }
+    var volumeIsError by rememberSaveable { mutableStateOf(false) }
+    var pictureUrlIsError by rememberSaveable { mutableStateOf(false) }
+    var howManyIsError by rememberSaveable { mutableStateOf(false) }
+
     Scaffold(modifier = modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
@@ -60,10 +67,9 @@ fun BeerAdd(
                 title = { Text("Add a Beer") })
         }) { innerPadding ->
         Column(modifier = modifier.padding(innerPadding)) {
-            // TODO show error message
+
             val orientation = LocalConfiguration.current.orientation
             val isPortrait = orientation == Configuration.ORIENTATION_PORTRAIT
-            // TODO refactor duplicated code: component MyTextField?
             if (isPortrait) {
                 OutlinedTextField(onValueChange = { name = it },
                     value = name,
@@ -73,7 +79,6 @@ fun BeerAdd(
                     label = { Text(text = "Name") })
                 OutlinedTextField(onValueChange = { abv = it },
                     value = abv,
-
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = abvIsError,
                     modifier = Modifier.fillMaxWidth(),
@@ -81,30 +86,36 @@ fun BeerAdd(
                 OutlinedTextField(onValueChange = { user = it },
                     value = user,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    isError = userIsError,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "User") })
                 OutlinedTextField(onValueChange = { brewery = it },
                     value = brewery,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    isError = breweryIsError,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "Brewery") })
                 OutlinedTextField(onValueChange = { style = it },
                     value = style,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    isError = styleIsError,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "Style") })
                 OutlinedTextField(onValueChange = { volume = it },
                     value = volume,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    isError = volumeIsError,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "Volume") })
                 OutlinedTextField(onValueChange = { pictureUrl = it },
                     value = pictureUrl,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    isError = pictureUrlIsError,
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "Picture URL") })
                 OutlinedTextField(onValueChange = { howMany = it.toInt() },
                     value = howMany.toString(),
+                    isError = howManyIsError,
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     modifier = Modifier.fillMaxWidth(),
                     label = { Text(text = "How many") })
@@ -129,29 +140,37 @@ fun BeerAdd(
                     OutlinedTextField(onValueChange = { user = it },
                         value = user,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        isError = userIsError,
+
                         modifier = Modifier.weight(1f),
                         label = { Text(text = "User") })
                     OutlinedTextField(onValueChange = { brewery = it },
                         value = brewery,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        isError = breweryIsError,
                         modifier = Modifier.weight(1f),
                         label = { Text(text = "Brewery") })
                     OutlinedTextField(onValueChange = { style = it },
                         value = style,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        isError = styleIsError,
                         modifier = Modifier.weight(1f),
                         label = { Text(text = "Style") })
                     OutlinedTextField(onValueChange = { volume = it },
                         value = volume,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        isError = volumeIsError,
                         modifier = Modifier.weight(1f),
                         label = { Text(text = "Volume") })
                     OutlinedTextField(onValueChange = { pictureUrl = it },
                         value = pictureUrl,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        isError = pictureUrlIsError,
                         modifier = Modifier.weight(1f),
                         label = { Text(text = "Picture URL") })
                     OutlinedTextField(onValueChange = {   howMany = it.toIntOrNull() ?: 0  },
+                        isError = howManyIsError,
+
                         value = howMany.toString(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         modifier = Modifier.weight(1f),
@@ -191,23 +210,59 @@ fun BeerAdd(
                         return@Button
                     }
 
-                    // 验证其他字段是否为空
-                    if (user.isEmpty() || brewery.isEmpty() || style.isEmpty() || volume.isEmpty() || pictureUrl.isEmpty() || howMany == 0) {
-                        Toast.makeText(context, "Please fill in all the fields", Toast.LENGTH_SHORT)
+                   if (user.isEmpty()) {
+                        userIsError = true
+                        Toast.makeText(context, "User cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    if (brewery.isEmpty()) {
+                        breweryIsError = true
+                        Toast.makeText(context, "Brewery cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    if (style.isEmpty()) {
+                        styleIsError = true
+                        Toast.makeText(context, "Style cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    if (volume.isEmpty()) {
+                        volumeIsError = true
+                        Toast.makeText(context, "Volume cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                        val volumeValue = volume.toDoubleOrNull()
+                    if (volumeValue == null) {
+                        volumeIsError = true
+                        Toast.makeText(context, "Volume must be a valid number", Toast.LENGTH_SHORT)
                             .show()
                         return@Button
                     }
 
+                    if (pictureUrl.isEmpty()) {
+                        pictureUrlIsError = true
+                        Toast.makeText(context, "Picture URL cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+                    if (howMany == 0) {
+                        howManyIsError = true
+                        Toast.makeText(context, "How many cannot be empty", Toast.LENGTH_SHORT).show()
+                        return@Button
+                    }
+
+
+
+
+
                     try {
-                        val Beer = Beer(
-                            name = name,
-                            abv = abvValue,
-                            user = user,
-                            brewery = brewery,
-                            style = style,
-                            volume = volume.toDouble(),
-                            pictureUrl = pictureUrl,
-                            howMany = howMany
+                       val Beer = Beer(
+                            name = name.ifEmpty { "Unknown Name" }, // 如果 name 为空，使用 "Unknown Name"
+                            abv = abvValue ?: 0.0,  // 如果 abvValue 为 null，使用 0.0
+                            user = user.ifEmpty { "Unknown User" }, // 如果 user 为空，使用 "Unknown User"
+                            brewery = brewery.ifEmpty { "Unknown Brewery" }, // 如果 brewery 为空，使用 "Unknown Brewery"
+                            style = style.ifEmpty { "Unknown Style" }, // 如果 style 为空，使用 "Unknown Style"
+                            volume = volume.toDoubleOrNull() ?: 0.0,  // 如果 volume 无法转换为 Double，使用 0.0
+                            pictureUrl = pictureUrl.ifEmpty { "No URL" }, // 如果 pictureUrl 为空，使用 "No URL"
+                            howMany = howMany.toString().toIntOrNull() ?: 1 // 如果 howMany 无法转换为 Int，使用 1
                         )
                         addBeer(Beer)
                         navigateBack()
