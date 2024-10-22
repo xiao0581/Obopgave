@@ -255,14 +255,14 @@ fun BeerAdd(
 
                     try {
                        val Beer = Beer(
-                            name = name.ifEmpty { "Unknown Name" }, // 如果 name 为空，使用 "Unknown Name"
-                            abv = abvValue ?: 0.0,  // 如果 abvValue 为 null，使用 0.0
-                            user = user.ifEmpty { "Unknown User" }, // 如果 user 为空，使用 "Unknown User"
-                            brewery = brewery.ifEmpty { "Unknown Brewery" }, // 如果 brewery 为空，使用 "Unknown Brewery"
-                            style = style.ifEmpty { "Unknown Style" }, // 如果 style 为空，使用 "Unknown Style"
-                            volume = volume.toDoubleOrNull() ?: 0.0,  // 如果 volume 无法转换为 Double，使用 0.0
-                            pictureUrl = pictureUrl.ifEmpty { "No URL" }, // 如果 pictureUrl 为空，使用 "No URL"
-                            howMany = howMany.toString().toIntOrNull() ?: 1 // 如果 howMany 无法转换为 Int，使用 1
+                            name = name.ifEmpty { "Unknown Name" },
+                            abv = abvValue ?: 0.0,
+                            user = user.ifEmpty { "Unknown User" },
+                            brewery = brewery.ifEmpty { "Unknown Brewery" },
+                            style = style.ifEmpty { "Unknown Style" },
+                            volume = volume.toDoubleOrNull() ?: 0.0,
+                            pictureUrl = pictureUrl.ifEmpty { "No URL" },
+                            howMany = howMany.toString().toIntOrNull() ?: 1
                         )
                         addBeer(Beer)
                         navigateBack()

@@ -51,7 +51,7 @@ import com.example.obopgave.Screen.BeerAdd
 import com.example.obopgave.Screen.BeerDetails
 import com.example.obopgave.Screen.BeerListScreen
 import com.example.obopgave.Screen.LoginScreen
-import com.example.obopgave.Screen.UserbeerScreen
+
 import com.example.obopgave.ViewModel.AuthenticationViewModel
 import com.example.obopgave.ViewModel.Beer
 import com.example.obopgave.ViewModel.BeerViewModel

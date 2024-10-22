@@ -1,16 +1,15 @@
 package com.example.obopgave
 
-import android.util.Log
+
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasText
+
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onAllNodesWithText
+
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.test.espresso.Espresso.closeSoftKeyboard
-import androidx.test.platform.app.InstrumentationRegistry
+
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.example.obopgave.Screen.LoginScreen
 
@@ -34,40 +33,38 @@ import org.junit.Rule
 class LoginScreenTest {
 
     @get:Rule
-    val composeTestRule = createComposeRule()
+    val Rule = createComposeRule()
 
     @Test
     fun testRegisterSuccess() {
-        // 设置测试内容
-        composeTestRule.setContent {
+
+        Rule.setContent {
             LoginScreen(
                 message = "Registration successful",
                 register = { email, password ->
                     if (email == "test@example.com" && password == "password123") {
-
-                        // 更新 UI 显示“Registration successful”消息
                     }
                 }
             )
         }
 
 
-        composeTestRule.onNodeWithText("Email").performTextInput("test@example.com")
+        Rule.onNodeWithText("Email").performTextInput("test@example.com")
 
 
-        composeTestRule.onNodeWithText("Password").performTextInput("password123")
+        Rule.onNodeWithText("Password").performTextInput("password123")
         closeSoftKeyboard()
 
-        composeTestRule.onNodeWithText("Register").performClick()
-        composeTestRule.waitForIdle()
+        Rule.onNodeWithText("Register").performClick()
+        Rule.waitForIdle()
 
-        composeTestRule.onNodeWithText("Registration successful").assertIsDisplayed()
+        Rule.onNodeWithText("Registration successful").assertIsDisplayed()
     }
 
     @Test
     fun testRegisterFailure() {
 
-        composeTestRule.setContent {
+        Rule.setContent {
             LoginScreen(
                 message = "The email address is already in use by another account.",
                 register = { email, password ->
@@ -80,19 +77,19 @@ class LoginScreenTest {
         }
 
 
-        composeTestRule.onNodeWithText("Email").performTextInput("test@example.com")
+        Rule.onNodeWithText("Email").performTextInput("test@example.com")
 
 
-        composeTestRule.onNodeWithText("Password").performTextInput("password123")
+        Rule.onNodeWithText("Password").performTextInput("password123")
 
         closeSoftKeyboard()
 
 
-        composeTestRule.onNodeWithText("Register").performClick()
-        composeTestRule.waitForIdle()
+        Rule.onNodeWithText("Register").performClick()
+        Rule.waitForIdle()
 
 
-        composeTestRule.onNodeWithText("The email address is already in use by another account.").assertIsDisplayed()
+        Rule.onNodeWithText("The email address is already in use by another account.").assertIsDisplayed()
     }
 
 }

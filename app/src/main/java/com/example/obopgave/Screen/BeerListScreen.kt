@@ -68,9 +68,9 @@ fun BeerListScreen(
     sortByName: (up: Boolean) -> Unit = {},
     sortByAbv: (up: Boolean) -> Unit = {},
     filterByName: (String) -> Unit = {},
-    filterByAbv: (Double) -> Unit = {}, // 过滤 ABV
-    filterByNameAndAbv: (String, Double) -> Unit = { _, _ -> }, // 过滤名字和ABV
-    onRefreshBeerList: () -> Unit = {},// Callback to refresh the beer list
+    filterByAbv: (Double) -> Unit = {},
+    filterByNameAndAbv: (String, Double) -> Unit = { _, _ -> },
+    onRefreshBeerList: () -> Unit = {},
     user: FirebaseUser? = null,
     signOut: () -> Unit = {},
     navigateToAuthentication: () -> Unit = {}
@@ -115,8 +115,8 @@ fun BeerListScreen(
                 onRefresh = {
                     coroutineScope.launch {
                         isRefreshing = true
-                        onRefreshBeerList() // Call to refresh the beer list
-                        delay(500) // Simulate a delay for refreshing
+                        onRefreshBeerList()
+                        delay(500)
                         isRefreshing = false
                     }
                 },
@@ -191,7 +191,7 @@ private fun BeerListPanel(
                 }
             }
 
-            // 过滤器显示/隐藏按钮
+
             TextButton(onClick = { isFilterVisible = !isFilterVisible }) {
                 Text(if (isFilterVisible) "Hide Filters" else "Show Filters")
             }
