@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -77,7 +78,7 @@ fun BeerListScreen(
 ) {
     var isRefreshing by rememberSaveable  { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
-    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing)
+    val pullRefreshState = rememberPullToRefreshState()
 
     Scaffold(
         modifier = modifier,
@@ -110,18 +111,19 @@ fun BeerListScreen(
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
 
-            SwipeRefresh(
-                state = swipeRefreshState,
+            PullToRefreshBox(
+                modifier = Modifier.fillMaxWidth(),
+                state = pullRefreshState,
+                isRefreshing = isRefreshing,
                 onRefresh = {
+                    isRefreshing = true
                     coroutineScope.launch {
-                        isRefreshing = true
                         onRefreshBeerList()
                         delay(500)
                         isRefreshing = false
                     }
                 },
-
-            ) {
+            ){
                 BeerListPanel(
                     beers = beers,
                     modifier = Modifier,
@@ -296,5 +298,6 @@ private fun BeerListPanel(
             }
         }
     }
+
 
 

@@ -186,7 +186,7 @@ fun BeerAdd(
                     Text("Back")
                 }
                 Button(onClick = {
-                    // 验证名字是否为空
+
 
                     if (name.isEmpty()) {
                         nameIsError = true
@@ -194,14 +194,14 @@ fun BeerAdd(
                         return@Button
                     }
 
-                    // 验证 ABV 是否为空
+
                     if (abv.isEmpty()) {
                         abvIsError = true
                         Toast.makeText(context, "ABV cannot be empty", Toast.LENGTH_SHORT).show()
                         return@Button
                     }
 
-                    // 验证 ABV 是否为有效数字
+
                     val abvValue = abv.toDoubleOrNull()
                     if (abvValue == null) {
                         abvIsError = true
