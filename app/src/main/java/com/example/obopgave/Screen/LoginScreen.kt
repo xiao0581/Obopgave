@@ -79,6 +79,7 @@ fun LoginScreen(
     if (user != null) {
         LaunchedEffect(key1 = true) {
             navigateToBeerlist()
+            Beerlist()
 
 
 

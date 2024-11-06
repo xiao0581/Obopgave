@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
                     onBeerSelected =
                     { Beer -> navController.navigate(NavRouters.BeerDetails.route + "/${Beer.id}") },
                     onBeerDeleted =  { beer ->
-                        viewModel.remove(beer) // 删除操作
+                        viewModel.remove(beer)
                         viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString()) // 删除后立即刷新列表
                     },
                     Beerlist = { viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString()) },

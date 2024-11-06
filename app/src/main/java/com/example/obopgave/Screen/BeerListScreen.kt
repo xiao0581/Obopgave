@@ -83,10 +83,7 @@ fun BeerListScreen(
     var isRefreshing by rememberSaveable  { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val pullRefreshState = rememberPullToRefreshState()
-    if (beers != null) {
-            Beerlist()
 
-    }
     Scaffold(
         modifier = modifier,
         topBar = {
