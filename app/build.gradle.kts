@@ -83,7 +83,7 @@ dependencies {
     implementation("androidx.compose.material:material:1.5.0")
     implementation("androidx.compose.ui:ui-tooling-preview:1.5.0")
     implementation ("androidx.compose.runtime:runtime:1.5.0")
-
+    implementation("com.google.accompanist:accompanist-flowlayout:0.30.0")
 
     implementation("androidx.compose.material3:material3:1.3.0")
 }

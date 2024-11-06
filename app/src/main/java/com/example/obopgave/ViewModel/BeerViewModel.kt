@@ -11,7 +11,6 @@ class BeerViewModel:ViewModel() {
     val BeersFlow: State<List<Beer>> = repository.BeersFlow
     val errorMessageFlow: State<String> = repository.errorMessageFlow
 
-    // TODO use reloadingFlow to show loading indicator
     val reloadingFlow: State<Boolean> = repository.isLoadingBeers
 
     init {
