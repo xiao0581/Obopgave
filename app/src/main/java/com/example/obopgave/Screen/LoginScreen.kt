@@ -73,14 +73,18 @@ fun LoginScreen(
     message: String ,
     signIn: (email: String, password: String) -> Unit = { _, _ -> },
     register: (email: String, password: String) -> Unit = { _, _ -> },
-    navigateToWelcome: () -> Unit = {}
+    navigateToBeerlist: () -> Unit = {},
+    Beerlist: () -> Unit = {}
 ) {
     if (user != null) {
         LaunchedEffect(key1 = true) {
-            navigateToWelcome()
+            navigateToBeerlist()
+
+
+
         }
     }
-    val emailStart = "test@example.com" // TODO remove starting email
+    val emailStart = "somebody@home.com" // TODO remove starting email
     val passwordStart = "password123" // TODO remove starting password
     var email by remember { mutableStateOf(emailStart) }
     var password by remember { mutableStateOf(passwordStart) }
@@ -161,7 +165,7 @@ fun LoginScreen(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
                 Button(onClick = {
-                    // TODO same validation for register and sign in
+
                     register(email, password)
                     showDialog = true
 
@@ -214,6 +218,6 @@ private fun validateEmail(email: String): Boolean {
 @Composable
 fun PreviewAuthentication() {
     ObopgaveTheme {
-        LoginScreen( user = null, message = "", signIn = { _, _ -> }, register = { _, _ -> }, navigateToWelcome = {})
+        LoginScreen( user = null, message = "", signIn = { _, _ -> }, register = { _, _ -> }, navigateToBeerlist = {})
     }
 }

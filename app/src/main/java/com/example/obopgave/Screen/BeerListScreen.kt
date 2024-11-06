@@ -38,6 +38,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -67,6 +68,7 @@ fun BeerListScreen(
     modifier: Modifier = Modifier,
     onBeerSelected: (Beer) -> Unit = {},
     onBeerDeleted: (Beer) -> Unit = {},
+    Beerlist: () -> Unit = {},
     onAdd: () -> Unit = {},
     sortByName: (up: Boolean) -> Unit = {},
     sortByAbv: (up: Boolean) -> Unit = {},
@@ -81,7 +83,10 @@ fun BeerListScreen(
     var isRefreshing by rememberSaveable  { mutableStateOf(false) }
     val coroutineScope = rememberCoroutineScope()
     val pullRefreshState = rememberPullToRefreshState()
+    if (beers != null) {
+            Beerlist()
 
+    }
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -131,6 +136,7 @@ fun BeerListScreen(
                     modifier = Modifier,
                     errorMessage = errorMessage,
                     onBeerSelected = onBeerSelected,
+                    Beerlist = Beerlist,
                     onBeerDeleted = onBeerDeleted,
                     sortByName = sortByName,
                     sortByAbv = sortByAbv,
@@ -151,6 +157,7 @@ private fun BeerListPanel(
     errorMessage: String,
     onBeerSelected: (Beer) -> Unit,
     onBeerDeleted: (Beer) -> Unit,
+    Beerlist: () -> Unit,
     sortByName: (up: Boolean) -> Unit,
     sortByAbv: (up: Boolean) -> Unit,
     filterByName: (String) -> Unit,
@@ -258,7 +265,8 @@ private fun BeerListPanel(
                 BeerItem(
                     beer,
                     onBeerSelected = onBeerSelected,
-                    onBeerDeleted = onBeerDeleted
+                    onBeerDeleted = onBeerDeleted,
+                    Beerlist = Beerlist
                 )
             }
         }
@@ -270,6 +278,7 @@ private fun BeerListPanel(
         beer: Beer,
         modifier: Modifier = Modifier,
         onBeerSelected: (Beer) -> Unit = {},
+        Beerlist: () -> Unit,
         onBeerDeleted: (Beer) -> Unit = {}
     ) {
         Card(modifier = modifier
@@ -295,7 +304,9 @@ private fun BeerListPanel(
                     contentDescription = "Remove",
                     modifier = Modifier
                         .padding(8.dp)
-                        .clickable { onBeerDeleted(beer) }
+                        .clickable {
+                            onBeerDeleted(beer)
+                        }
                 )
             }
         }

@@ -27,7 +27,7 @@ class BeerRepository {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         beerService = build.create(BeerService::class.java)
-        getBeers()
+
     }
 
 
@@ -62,7 +62,6 @@ class BeerRepository {
             override fun onResponse(call: Call<Beer>, response: Response<Beer>) {
                 if (response.isSuccessful) {
 
-                    getBeers()  // 添加后重新获取所有数据
                     errorMessageFlow.value = ""
                 } else {
                     val message = response.code().toString() + " " + response.message()
@@ -86,7 +85,7 @@ class BeerRepository {
                 if (response.isSuccessful) {
 
                     errorMessageFlow.value = ""
-                    getBeers()  // 删除后重新获取所有数据
+
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageFlow.value = message
@@ -108,7 +107,7 @@ class BeerRepository {
             override fun onResponse(call: Call<Beer>, response: Response<Beer>) {
                 if (response.isSuccessful) {
                     errorMessageFlow.value = ""
-                    getBeers()
+
                 } else {
                     val message = response.code().toString() + " " + response.message()
                     errorMessageFlow.value = message

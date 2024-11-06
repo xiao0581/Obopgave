@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.obopgave.Repository.BeerRepository
 import androidx.compose.runtime.State
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.obopgave.NavRouters
 import retrofit2.http.GET
 
 class BeerViewModel:ViewModel() {
@@ -13,9 +15,7 @@ class BeerViewModel:ViewModel() {
 
     val reloadingFlow: State<Boolean> = repository.isLoadingBeers
 
-    init {
-        reload()
-    }
+
 
     fun reload() {
         try {

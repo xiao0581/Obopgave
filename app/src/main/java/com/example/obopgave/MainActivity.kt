@@ -76,6 +76,7 @@ class MainActivity : ComponentActivity() {
         val errorMessage = viewModel.errorMessageFlow.value
         val authenticationViewModel: AuthenticationViewModel = viewModel()
 
+
         NavHost(navController = navController, startDestination = NavRouters.LoginScreen.route) {
             composable(NavRouters.LoginScreen.route) {
                 LoginScreen(
@@ -84,7 +85,8 @@ class MainActivity : ComponentActivity() {
                     message = authenticationViewModel.message,
                     signIn = { email, password -> authenticationViewModel.signIn(email, password) },
                     register = { email, password -> authenticationViewModel.register(email, password) },
-                    navigateToWelcome = { navController.navigate(NavRouters.BeerListScreen.route) },
+                    navigateToBeerlist = { navController.navigate(NavRouters.BeerListScreen.route) },
+                    Beerlist = { viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString()) }
 
                 )
             }
@@ -96,8 +98,11 @@ class MainActivity : ComponentActivity() {
 
                     onBeerSelected =
                     { Beer -> navController.navigate(NavRouters.BeerDetails.route + "/${Beer.id}") },
-                    onBeerDeleted = { beer -> viewModel.remove(beer) },
-
+                    onBeerDeleted =  { beer ->
+                        viewModel.remove(beer) // 删除操作
+                        viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString()) // 删除后立即刷新列表
+                    },
+                    Beerlist = { viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString()) },
                     onAdd = { navController.navigate(NavRouters.BeerAdd.route) },
                     sortByName = { viewModel.sortBooksByName(ascending = it) },
                     sortByAbv = { viewModel.sortBooksByAbv(ascending = it) },
@@ -105,7 +110,7 @@ class MainActivity : ComponentActivity() {
                     ,
                     filterByAbv = { viewModel.filterByAbv(it) },
                     filterByNameAndAbv = { name, abv -> viewModel.filterByNameAndAbv(name, abv) },
-                    onRefreshBeerList = { viewModel.reload() },
+                    onRefreshBeerList = {viewModel.GetBeerByUser(authenticationViewModel.user?.email.toString())} ,
                     user = authenticationViewModel.user,
                     signOut = { authenticationViewModel.signOut() },
                     navigateToAuthentication = {

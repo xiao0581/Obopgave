@@ -42,4 +42,7 @@ class AuthenticationViewModel : ViewModel() {
                 }
             }
     }
+
+    val userEmail: String?
+        get() = user?.email
 }
