@@ -91,7 +91,7 @@ fun LoginScreen(
     var emailIsError by remember { mutableStateOf(false) }
     var passwordIsError by remember { mutableStateOf(false) }
     var showPassword by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) } // 控制对话框显示
+    var showDialog by remember { mutableStateOf(false) }
 
     val backgroundColor =Color(0xFF8B8D7B)
     Scaffold(
